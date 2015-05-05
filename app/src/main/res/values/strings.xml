@@ -8,10 +8,19 @@
     <string name="password_hint">Password</string>
     <string name="login_button_label">Login</string>
     <string name="signup_text">Sign Up!</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <string name="title_section1">Inbox</string>
+    <string name="title_section2">Friends</string>
     <string name="title_activity_signup">SignupActivity</string>
     <string name="email_hint">Email</string>
     <string name="signup_button_label">Sign Up</string>
+    <string name="signup_error_message">Please make sure you enter a username, password and email address</string>
+    <string name="signup_error_title">Oopss!</string>
+    <string name="signup_error_parse">An error occurred during signup</string>
+    <string name="login_error_message">Please make sure you enter a username, password</string>
+    <string name="login_error_title">Oopss!</string>
+    <string name="login_error_parse">An error occurred during login</string>
+    <string name="title_activity_home">HomeActivityActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main_activity2">MainActivity2Activity</string>
+    <string name="menu_logout_label">Logout</string>
 </resources>
