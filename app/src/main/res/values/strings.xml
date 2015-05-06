@@ -23,4 +23,6 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_main_activity2">MainActivity2Activity</string>
     <string name="menu_logout_label">Logout</string>
+    <string name="empty_inbox_label">No new messages</string>
+    <string name="empty_friends_label">Add friends to begin!</string>
 </resources>

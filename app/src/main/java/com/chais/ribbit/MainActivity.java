@@ -94,7 +94,7 @@ public class MainActivity extends ActionBarActivity {
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
-	public static class PlaceholderFragment extends Fragment {
+	/*public static class PlaceholderFragment extends Fragment {
 		private static final String ARG_SECTION_NUMBER = "section_number";
 
 		@InjectView(R.id.section_label) TextView mSection;
@@ -113,11 +113,11 @@ public class MainActivity extends ActionBarActivity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 								 Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+			View rootView = inflater.inflate(R.layout.fragment_inbox, container, false);
 			ButterKnife.inject(this, rootView);
 			mSection.setText(getArguments().getInt(ARG_SECTION_NUMBER) + "");
 			return rootView;
 		}
-	}
+	}*/
 
 }
