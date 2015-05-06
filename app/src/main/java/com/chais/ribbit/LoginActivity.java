@@ -84,27 +84,29 @@ public class LoginActivity extends ActionBarActivity {
 			return;
 		}
 
-		setProgressBarIndeterminateVisibility(true);
-		ParseUser.logInInBackground(username, password, new LogInCallback() {
-			@Override
-			public void done(ParseUser parseUser, ParseException e) {
-				setProgressBarIndeterminateVisibility(false);
-				if (e != null) {
-					Log.e(TAG, e.getMessage());
-					AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-					builder.setMessage(getString(R.string.login_error_parse))
-							.setTitle(getString(R.string.login_error_title))
-							.setPositiveButton(android.R.string.ok, null)
-							.create()
-							.show();
-					return;
-				}
-
-				Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-				startActivity(intent);
-			}
-		});
+		setSupportProgressBarIndeterminateVisibility(true);
+		ParseUser.logInInBackground(username, password, logInCallback);
 	}
+
+	private LogInCallback logInCallback = new LogInCallback() {
+		@Override
+		public void done(ParseUser parseUser, ParseException e) {
+			setSupportProgressBarIndeterminateVisibility(false);
+			if (e != null) {
+				Log.e(TAG, e.getMessage());
+				AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+				builder.setMessage(getString(R.string.login_error_parse))
+						.setTitle(getString(R.string.login_error_title))
+						.setPositiveButton(android.R.string.ok, null)
+						.create()
+						.show();
+				return;
+			}
+
+			Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+			startActivity(intent);
+		}
+	};
 }

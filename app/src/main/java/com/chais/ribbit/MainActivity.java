@@ -83,9 +83,14 @@ public class MainActivity extends ActionBarActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 
-		if (id == R.id.action_logout) {
-			ParseUser.logOut();
-			navigateToLogin();
+		switch (id){
+			case R.id.action_logout:
+				ParseUser.logOut();
+				navigateToLogin();
+				break;
+			case R.id.action_edit_friends:
+				Intent intent = new Intent(this, EditFriendsActivity.class);
+				startActivity(intent);
 		}
 
 		return super.onOptionsItemSelected(item);

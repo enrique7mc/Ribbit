@@ -84,28 +84,29 @@ public class SignUpActivity extends ActionBarActivity {
 		newUser.setPassword(password);
 		newUser.setEmail(email);
 
-		setProgressBarIndeterminateVisibility(true);
-		newUser.signUpInBackground(new SignUpCallback() {
-			@Override
-			public void done(ParseException e) {
-				setProgressBarIndeterminateVisibility(false);
-				if (e != null) {
-					Log.e(TAG, e.getMessage());
-					AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
-					builder.setMessage(getString(R.string.signup_error_parse))
-							.setTitle(getString(R.string.signup_error_title))
-							.setPositiveButton(android.R.string.ok, null)
-							.create()
-							.show();
-					return;
-				}
-
-				Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-				startActivity(intent);
-			}
-		});
-
+		setSupportProgressBarIndeterminateVisibility(true);
+		newUser.signUpInBackground(signUpCallback);
 	}
+
+	private SignUpCallback signUpCallback = new SignUpCallback() {
+		@Override
+		public void done(ParseException e) {
+			setSupportProgressBarIndeterminateVisibility(false);
+			if (e != null) {
+				Log.e(TAG, e.getMessage());
+				AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
+				builder.setMessage(getString(R.string.signup_error_parse))
+						.setTitle(getString(R.string.signup_error_title))
+						.setPositiveButton(android.R.string.ok, null)
+						.create()
+						.show();
+				return;
+			}
+
+			Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+			startActivity(intent);
+		}
+	};
 }
