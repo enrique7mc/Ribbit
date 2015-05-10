@@ -1,11 +1,16 @@
 package com.chais.ribbit;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
@@ -21,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.ParseUser;
 
@@ -35,19 +41,14 @@ public class MainActivity extends ActionBarActivity {
 	public static final int TAKE_VIDEO_REQUEST = 1;
 	public static final int PICK_PHOTO_REQUEST = 2;
 	public static final int PICK_VIDEO_REQUEST = 3;
-	/**
-	 * The {@link android.support.v4.view.PagerAdapter} that will provide
-	 * fragments for each of the sections. We use a
-	 * {@link FragmentPagerAdapter} derivative, which will keep every
-	 * loaded fragment in memory. If this becomes too memory intensive, it
-	 * may be best to switch to a
-	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-	 */
+
+	public static final int MEDIA_TYPE_IMAGE = 4;
+	public static final int MEDIA_TYPE_VIDEO = 5;
+	public static final SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
+
+	protected Uri mMediaUri;
 	SectionsPagerAdapter mSectionsPagerAdapter;
 
-	/**
-	 * The {@link ViewPager} that will host the section contents.
-	 */
 	ViewPager mViewPager;
 
 	@Override
@@ -71,6 +72,19 @@ public class MainActivity extends ActionBarActivity {
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (resultCode == RESULT_OK) {
+			Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+			mediaScanIntent.setData(mMediaUri);
+			sendBroadcast(mediaScanIntent);
+		} else if (resultCode != RESULT_CANCELED) {
+			Toast.makeText(this, getString(R.string.general_error), Toast.LENGTH_LONG).show();
+		}
 	}
 
 	private void navigateToLogin() {
@@ -109,13 +123,20 @@ public class MainActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	protected DialogInterface.OnClickListener mDialogListener =
-			new DialogInterface.OnClickListener() {
+	protected DialogInterface.OnClickListener mDialogListener = new DialogInterface.OnClickListener() {
 		@Override
 		public void onClick(DialogInterface dialogInterface, int which) {
 			switch (which) {
 				case 0:
 					Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+					mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+					if (mMediaUri == null) {
+						Toast.makeText(MainActivity.this,
+								getString(R.string.error_external_storage),
+								Toast.LENGTH_LONG).show();
+						return;
+					}
+					takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
 					startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
 					break;
 				case 1:
@@ -125,6 +146,43 @@ public class MainActivity extends ActionBarActivity {
 				case 3:
 					break;
 			}
+		}
+
+		private Uri getOutputMediaFileUri(int mediaType) {
+			if (isExternalStorageAvailable()) {
+				String appName = MainActivity.this.getString(R.string.app_name);
+				File mediaStorageDir = new File(
+						Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+						appName);
+				if (!mediaStorageDir.exists() ) {
+					if (!mediaStorageDir.mkdirs()) {
+						Log.e(TAG, "Failed to create directory");
+						return null;
+					}
+				}
+
+				File mediaFile;
+				Date now = new Date();
+				String timestamp = formatter.format(now);
+				String path = mediaStorageDir.getPath() + File.separator;
+				if (mediaType == MEDIA_TYPE_IMAGE) {
+					mediaFile = new File(path + "IMG_" + timestamp + ".jpg");
+				} else if(mediaType == MEDIA_TYPE_VIDEO) {
+					mediaFile = new File(path + "VID_" + timestamp + ".mp4");
+				} else {
+					return null;
+				}
+
+				Log.d(TAG, "File: " + Uri.fromFile(mediaFile));
+				return Uri.fromFile(mediaFile);
+			}
+
+			return null;
+		}
+
+		private boolean isExternalStorageAvailable() {
+			String state = Environment.getExternalStorageState();
+			return state.equals(Environment.MEDIA_MOUNTED);
 		}
 	};
 }
