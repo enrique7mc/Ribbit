@@ -46,4 +46,5 @@
     <string name="action_send">Send</string>
     <string name="error_selecting_file">There was an error with the selected file.</string>
     <string name="success_message">Message sent!</string>
+    <string name="title_activity_view_image">Ribbit</string>
 </resources>
