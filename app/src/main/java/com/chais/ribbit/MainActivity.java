@@ -1,6 +1,9 @@
 package com.chais.ribbit;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -44,6 +47,8 @@ public class MainActivity extends ActionBarActivity {
 
 	public static final int MEDIA_TYPE_IMAGE = 4;
 	public static final int MEDIA_TYPE_VIDEO = 5;
+
+	public static final  int FILE_SIZE_LIMIT = 1024 * 1024 * 10;
 	public static final SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
 
 	protected Uri mMediaUri;
@@ -79,11 +84,51 @@ public class MainActivity extends ActionBarActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		if (resultCode == RESULT_OK) {
-			Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-			mediaScanIntent.setData(mMediaUri);
-			sendBroadcast(mediaScanIntent);
+			if (requestCode == PICK_PHOTO_REQUEST || requestCode == PICK_VIDEO_REQUEST) {
+				if (data == null) {
+					Toast.makeText(this, getString(R.string.general_error),
+							Toast.LENGTH_LONG).show();
+					return;
+				}
+
+				mMediaUri = data.getData();
+				if (requestCode == PICK_VIDEO_REQUEST) {
+					checkVideoSize();
+				}
+			} else {
+				Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+				mediaScanIntent.setData(mMediaUri);
+				sendBroadcast(mediaScanIntent);
+			}
 		} else if (resultCode != RESULT_CANCELED) {
 			Toast.makeText(this, getString(R.string.general_error), Toast.LENGTH_LONG).show();
+		}
+	}
+
+	private void checkVideoSize() {
+		int fileSize = 0;
+		InputStream inputStream = null;
+		try {
+			inputStream = getContentResolver().openInputStream(mMediaUri);
+			fileSize = inputStream.available();
+			if (fileSize >= FILE_SIZE_LIMIT) {
+				Toast.makeText(this, getString(R.string.error_file_size_too_large),
+						Toast.LENGTH_LONG).show();
+			}
+		} catch (FileNotFoundException e) {
+			Toast.makeText(this, getString(R.string.error_opening_file),
+					Toast.LENGTH_LONG).show();
+		} catch (IOException e) {
+			Toast.makeText(this, getString(R.string.general_error),
+					Toast.LENGTH_LONG).show();
+		} finally {
+			if (inputStream != null) {
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					Log.e(TAG, e.getMessage());
+				}
+			}
 		}
 	}
 
@@ -140,10 +185,30 @@ public class MainActivity extends ActionBarActivity {
 					startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
 					break;
 				case 1:
+					Intent videoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+					mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
+					if (mMediaUri == null) {
+						Toast.makeText(MainActivity.this,
+								getString(R.string.error_external_storage),
+								Toast.LENGTH_LONG).show();
+						return;
+					}
+					videoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
+					videoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);
+					videoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
+					startActivityForResult(videoIntent, TAKE_VIDEO_REQUEST);
 					break;
 				case 2:
+					Intent choosePhotoIntent = new Intent(Intent.ACTION_GET_CONTENT);
+					choosePhotoIntent.setType("image/*");
+					startActivityForResult(choosePhotoIntent, PICK_PHOTO_REQUEST);
 					break;
 				case 3:
+					Intent chooseVideoIntent = new Intent(Intent.ACTION_GET_CONTENT);
+					chooseVideoIntent.setType("video/*");
+					Toast.makeText(MainActivity.this,
+							getString(R.string.video_file_size_warning), Toast.LENGTH_LONG).show();
+					startActivityForResult(chooseVideoIntent, PICK_VIDEO_REQUEST);
 					break;
 			}
 		}
