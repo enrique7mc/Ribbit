@@ -3,7 +3,10 @@ package com.chais.ribbit;
 import java.util.Locale;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -28,6 +31,10 @@ import butterknife.InjectView;
 public class MainActivity extends ActionBarActivity {
 
 	private static final String TAG = MainActivity.class.getSimpleName();
+	public static final int TAKE_PHOTO_REQUEST = 0;
+	public static final int TAKE_VIDEO_REQUEST = 1;
+	public static final int PICK_PHOTO_REQUEST = 2;
+	public static final int PICK_VIDEO_REQUEST = 3;
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections. We use a
@@ -93,38 +100,31 @@ public class MainActivity extends ActionBarActivity {
 			case R.id.action_edit_friends:
 				Intent intent = new Intent(this, EditFriendsActivity.class);
 				startActivity(intent);
+			case R.id.action_camera:
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setItems(R.array.camera_choices, mDialogListener);
+				builder.create().show();
 		}
 
 		return super.onOptionsItemSelected(item);
 	}
 
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	/*public static class PlaceholderFragment extends Fragment {
-		private static final String ARG_SECTION_NUMBER = "section_number";
-
-		@InjectView(R.id.section_label) TextView mSection;
-
-		public static PlaceholderFragment newInstance(int sectionNumber) {
-			PlaceholderFragment fragment = new PlaceholderFragment();
-			Bundle args = new Bundle();
-			args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-			fragment.setArguments(args);
-			return fragment;
-		}
-
-		public PlaceholderFragment() {
-		}
-
+	protected DialogInterface.OnClickListener mDialogListener =
+			new DialogInterface.OnClickListener() {
 		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-								 Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_inbox, container, false);
-			ButterKnife.inject(this, rootView);
-			mSection.setText(getArguments().getInt(ARG_SECTION_NUMBER) + "");
-			return rootView;
+		public void onClick(DialogInterface dialogInterface, int which) {
+			switch (which) {
+				case 0:
+					Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+					startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
+					break;
+				case 1:
+					break;
+				case 2:
+					break;
+				case 3:
+					break;
+			}
 		}
-	}*/
-
+	};
 }
