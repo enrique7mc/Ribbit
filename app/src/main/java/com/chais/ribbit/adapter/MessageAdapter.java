@@ -1,4 +1,4 @@
-package com.chais.ribbit;
+package com.chais.ribbit.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chais.ribbit.util.ParseConstants;
+import com.chais.ribbit.R;
 import com.parse.ParseObject;
 
 import java.util.List;

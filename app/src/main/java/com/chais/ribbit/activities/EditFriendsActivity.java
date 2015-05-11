@@ -9,8 +9,9 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.chais.ribbit.ParseConstants;
+import com.chais.ribbit.util.ParseConstants;
 import com.chais.ribbit.R;
+import com.chais.ribbit.util.Util;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -80,12 +81,8 @@ public class EditFriendsActivity extends ListActivity {
 			setProgressBarIndeterminateVisibility(false);
 			if (e != null) {
 				Log.e(TAG, e.getMessage());
-				AlertDialog.Builder builder = new AlertDialog.Builder(EditFriendsActivity.this);
-				builder.setMessage(e.getMessage())
-						.setTitle(getString(R.string.error_title))
-						.setPositiveButton(android.R.string.ok, null)
-						.create()
-						.show();
+				Util.alertDialogShow(EditFriendsActivity.this, getString(R.string.error_title),
+						e.getMessage());
 				return;
 			}
 

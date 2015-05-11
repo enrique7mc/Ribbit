@@ -10,8 +10,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.chais.ribbit.MainActivity;
 import com.chais.ribbit.R;
+import com.chais.ribbit.util.Util;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -46,12 +46,8 @@ public class SignUpActivity extends ActionBarActivity {
 		email = email.trim();
 
 		if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage(getString(R.string.signup_error_message))
-				   .setTitle(getString(R.string.signup_error_title))
-				   .setPositiveButton(android.R.string.ok, null)
-				   .create()
-				   .show();
+			Util.alertDialogShow(this, getString(R.string.signup_error_title),
+					getString(R.string.signup_error_message));
 			return;
 		}
 
@@ -71,12 +67,8 @@ public class SignUpActivity extends ActionBarActivity {
 			setSupportProgressBarIndeterminateVisibility(false);
 			if (e != null) {
 				Log.e(TAG, e.getMessage());
-				AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
-				builder.setMessage(getString(R.string.signup_error_parse))
-						.setTitle(getString(R.string.signup_error_title))
-						.setPositiveButton(android.R.string.ok, null)
-						.create()
-						.show();
+				Util.alertDialogShow(SignUpActivity.this, getString(R.string.signup_error_title),
+						getString(R.string.signup_error_parse));
 				return;
 			}
 

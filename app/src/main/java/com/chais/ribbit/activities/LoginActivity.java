@@ -11,8 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.chais.ribbit.MainActivity;
 import com.chais.ribbit.R;
+import com.chais.ribbit.util.Util;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -53,12 +53,8 @@ public class LoginActivity extends ActionBarActivity {
 		password = password.trim();
 
 		if (username.isEmpty() || password.isEmpty()) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage(getString(R.string.login_error_message))
-					.setTitle(getString(R.string.login_error_title))
-					.setPositiveButton(android.R.string.ok, null)
-					.create()
-					.show();
+			Util.alertDialogShow(this, getString(R.string.login_error_title),
+					getString(R.string.login_error_message));
 			return;
 		}
 
@@ -72,12 +68,12 @@ public class LoginActivity extends ActionBarActivity {
 			setSupportProgressBarIndeterminateVisibility(false);
 			if (e != null) {
 				Log.e(TAG, e.getMessage());
-				AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-				builder.setMessage(getString(R.string.login_error_parse))
-						.setTitle(getString(R.string.login_error_title))
-						.setPositiveButton(android.R.string.ok, null)
-						.create()
-						.show();
+				String message = e.getMessage().equals("invalid login parameters") ?
+						getString(R.string.login_invalid_credentials) :
+						getString(R.string.login_error_title);
+
+				Util.alertDialogShow(LoginActivity.this, message,
+						getString(R.string.login_error_parse));
 				return;
 			}
 

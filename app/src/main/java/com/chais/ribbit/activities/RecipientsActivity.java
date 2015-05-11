@@ -1,6 +1,5 @@
 package com.chais.ribbit.activities;
 
-import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,9 +12,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.chais.ribbit.FileHelper;
-import com.chais.ribbit.ParseConstants;
 import com.chais.ribbit.R;
+import com.chais.ribbit.util.FileHelper;
+import com.chais.ribbit.util.ParseConstants;
+import com.chais.ribbit.util.Util;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -70,12 +70,8 @@ public class RecipientsActivity extends ListActivity {
 			setProgressBarIndeterminateVisibility(false);
 			if (e != null) {
 				Log.e(TAG, e.getMessage());
-				AlertDialog.Builder builder = new AlertDialog.Builder(RecipientsActivity.this);
-				builder.setMessage(e.getMessage())
-						.setTitle(getString(R.string.error_title))
-						.setPositiveButton(android.R.string.ok, null)
-						.create()
-						.show();
+				Util.alertDialogShow(RecipientsActivity.this, getString(R.string.error_title),
+						e.getMessage());
 				return;
 			}
 
@@ -122,13 +118,8 @@ public class RecipientsActivity extends ListActivity {
 		if (id == R.id.action_send) {
 			ParseObject message = createMessage();
 			if (message == null) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(RecipientsActivity.this);
-				builder.setMessage(getString(R.string.error_selecting_file))
-						.setTitle(getString(R.string.error_title))
-						.setPositiveButton(android.R.string.ok, null)
-						.create()
-						.show();
-
+				Util.alertDialogShow(RecipientsActivity.this, getString(R.string.error_title),
+						getString(R.string.error_selecting_file));
 			} else {
 				send(message);
 				finish();
@@ -145,12 +136,9 @@ public class RecipientsActivity extends ListActivity {
 			public void done(ParseException e) {
 				if (e != null) {
 					Log.e(TAG, e.getMessage());
-					AlertDialog.Builder builder = new AlertDialog.Builder(RecipientsActivity.this);
-					builder.setMessage(e.getMessage())
-							.setTitle(getString(R.string.error_title))
-							.setPositiveButton(android.R.string.ok, null)
-							.create()
-							.show();
+					Util.alertDialogShow(RecipientsActivity.this, getString(R.string.error_title),
+							e.getMessage());
+
 					return;
 				}
 
