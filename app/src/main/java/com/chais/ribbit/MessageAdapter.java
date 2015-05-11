@@ -53,6 +53,12 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 		return view;
 	}
 
+	public void refill(List<ParseObject> messages) {
+		mMessages.clear();
+		mMessages.addAll(messages);
+		notifyDataSetChanged();
+	}
+
 	static class ViewHolder {
 		@InjectView(R.id.messageIcon) ImageView iconImageView;
 		@InjectView(R.id.senderLabel) TextView nameLabel;

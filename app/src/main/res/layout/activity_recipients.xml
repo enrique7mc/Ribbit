@@ -3,7 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
-                tools:context="com.chais.ribbit.RecipientsActivity">
+                tools:context="com.chais.ribbit.activities.RecipientsActivity">
 
     <ListView
         android:layout_width="wrap_content"

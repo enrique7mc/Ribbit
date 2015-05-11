@@ -27,21 +27,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".SignUpActivity"
+            android:name=".activities.SignUpActivity"
             android:label="@string/title_activity_signup"
-            android:parentActivityName=".LoginActivity"
+            android:parentActivityName=".activities.LoginActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chais.ribbit.LoginActivity" />
+                android:value=".activities.LoginActivity" />
         </activity>
         <activity
-            android:name=".EditFriendsActivity"
+            android:name=".activities.EditFriendsActivity"
             android:label="@string/title_activity_edit_friends"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
@@ -51,7 +51,7 @@
                 android:value="com.chais.ribbit.MainActivity" />
         </activity>
         <activity
-            android:name=".RecipientsActivity"
+            android:name=".activities.RecipientsActivity"
             android:label="@string/title_activity_recipients"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
@@ -61,7 +61,7 @@
                 android:value="com.chais.ribbit.MainActivity" />
         </activity>
         <activity
-            android:name=".ViewImageActivity"
+            android:name=".activities.ViewImageActivity"
             android:label="@string/title_activity_view_image"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait">

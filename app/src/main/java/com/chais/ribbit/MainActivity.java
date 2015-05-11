@@ -6,10 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,30 +14,18 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
+import com.chais.ribbit.activities.EditFriendsActivity;
+import com.chais.ribbit.activities.LoginActivity;
+import com.chais.ribbit.activities.RecipientsActivity;
 import com.parse.ParseUser;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -175,10 +160,12 @@ public class MainActivity extends ActionBarActivity {
 			case R.id.action_edit_friends:
 				Intent intent = new Intent(this, EditFriendsActivity.class);
 				startActivity(intent);
+				break;
 			case R.id.action_camera:
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setItems(R.array.camera_choices, mDialogListener);
 				builder.create().show();
+				break;
 		}
 
 		return super.onOptionsItemSelected(item);

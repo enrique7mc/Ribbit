@@ -9,9 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.chais.ribbit.activities.ViewImageActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -19,6 +19,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -62,6 +63,17 @@ public class InboxFragment extends ListFragment {
 			intent.setDataAndType(fileUri, "video/*");
 			startActivity(intent);
 		}
+
+		List<String> ids = message.getList(ParseConstants.KEY_RECIPIENTS_IDS);
+		if (ids.size() == 1) {
+			message.deleteInBackground();
+		} else {
+			String currentUserId = ParseUser.getCurrentUser().getObjectId();
+			ids.remove(currentUserId);
+			List<String> idsToRemove = Arrays.asList(new String[] {currentUserId});
+			message.removeAll(ParseConstants.KEY_RECIPIENTS_IDS, idsToRemove);
+			message.saveInBackground();
+		}
 	}
 
 	private void getUserMessages() {
@@ -86,8 +98,12 @@ public class InboxFragment extends ListFragment {
 
 				mMessages = messagesList;
 
-				MessageAdapter adapter = new MessageAdapter(getActivity(), mMessages);
-				setListAdapter(adapter);
+				if(getListAdapter() == null) {
+					MessageAdapter adapter = new MessageAdapter(getActivity(), mMessages);
+					setListAdapter(adapter);
+				} else {
+					((MessageAdapter)getListAdapter()).refill(mMessages);
+				}
 			}
 		});
 	}
