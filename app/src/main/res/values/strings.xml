@@ -48,4 +48,5 @@
     <string name="success_message">Message sent!</string>
     <string name="title_activity_view_image">Ribbit</string>
     <string name="login_invalid_credentials">Username and/or password invalid</string>
+    <string name="no_network_available_message">Seems you are offline</string>
 </resources>
