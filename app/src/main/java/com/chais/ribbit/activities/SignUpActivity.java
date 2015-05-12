@@ -1,6 +1,7 @@
 package com.chais.ribbit.activities;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ public class SignUpActivity extends ActionBarActivity {
 	@InjectView(R.id.passwordField) EditText mPassword;
 	@InjectView(R.id.emailField) EditText mEmail;
 	@InjectView(R.id.signupButton) Button mSignUpButton;
+	ProgressDialog progress;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
@@ -37,6 +39,11 @@ public class SignUpActivity extends ActionBarActivity {
 
 	@OnClick(R.id.signupButton)
 	public void SignUpButtonClick(View view) {
+		if (!Util.isNetworkAvailable(this)) {
+			Util.alertDialogShow(this, getString(R.string.general_error),
+					getString(R.string.no_network_available_message));
+			return;
+		}
 		String username = mUsername.getText().toString();
 		String password = mPassword.getText().toString();
 		String email = mEmail.getText().toString();
@@ -51,24 +58,23 @@ public class SignUpActivity extends ActionBarActivity {
 			return;
 		}
 
-		// create the new user
 		ParseUser newUser = new ParseUser();
 		newUser.setUsername(username);
 		newUser.setPassword(password);
 		newUser.setEmail(email);
 
-		setSupportProgressBarIndeterminateVisibility(true);
+		progress = ProgressDialog.show(this, "Sign up", "Please wait a moment", true);
 		newUser.signUpInBackground(signUpCallback);
 	}
 
 	private SignUpCallback signUpCallback = new SignUpCallback() {
 		@Override
 		public void done(ParseException e) {
-			setSupportProgressBarIndeterminateVisibility(false);
+			progress.dismiss();
 			if (e != null) {
 				Log.e(TAG, e.getMessage());
 				Util.alertDialogShow(SignUpActivity.this, getString(R.string.signup_error_title),
-						getString(R.string.signup_error_parse));
+						e.getMessage());
 				return;
 			}
 
