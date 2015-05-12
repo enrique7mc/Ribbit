@@ -81,8 +81,8 @@ public class LoginActivity extends Activity {
 						getString(R.string.login_invalid_credentials) :
 						getString(R.string.login_error_title);
 
-				Util.alertDialogShow(LoginActivity.this, message,
-						getString(R.string.login_error_parse));
+				Util.alertDialogShow(LoginActivity.this, getString(R.string.login_error_parse),
+						message);
 				return;
 			}
 
