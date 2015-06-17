@@ -19,10 +19,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/usernameField"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:hint="@string/username_hint">
+        android:hint="@string/username_hint"
+        android:layout_above="@+id/passwordField"
+        android:layout_alignLeft="@+id/backgroundImage"
+        android:layout_alignStart="@+id/backgroundImage">
         <requestFocus/>
     </EditText>
 
@@ -32,10 +32,10 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/passwordField"
-        android:layout_below="@+id/usernameField"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:hint="@string/password_hint"/>
+        android:hint="@string/password_hint"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/backgroundImage"
+        android:layout_alignStart="@+id/backgroundImage"/>
 
     <Button
         android:layout_width="match_parent"
@@ -43,15 +43,41 @@
         android:text="@string/login_button_label"
         android:id="@+id/loginButton"
         android:layout_below="@+id/passwordField"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignLeft="@+id/backgroundImage"
+        android:layout_alignStart="@+id/backgroundImage"
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/signup_text"
         android:id="@+id/signUpText"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/loginButton"
+        android:layout_marginTop="12dp"
+        android:textColor="@android:color/white"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/title"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:text="@string/app_name"
+        android:textSize="60sp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/subtitle"
+        android:textSize="13sp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:text="@string/subtitle"/>
 
 </RelativeLayout>
