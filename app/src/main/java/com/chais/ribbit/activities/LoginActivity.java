@@ -1,11 +1,10 @@
 package com.chais.ribbit.activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -24,7 +23,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends ActionBarActivity {
 	private static final String TAG = LoginActivity.class.getSimpleName();
 	@InjectView(R.id.usernameField) EditText mUsername;
 	@InjectView(R.id.passwordField) EditText mPassword;
@@ -34,9 +33,11 @@ public class LoginActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+
+		getSupportActionBar().hide();
 
 		ButterKnife.inject(this);
 	}

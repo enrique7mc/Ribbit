@@ -1,10 +1,9 @@
 package com.chais.ribbit.activities;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -31,9 +30,11 @@ public class SignUpActivity extends ActionBarActivity {
 	ProgressDialog progress;
 
 	protected void onCreate(Bundle savedInstanceState) {
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_signup);
+
+		getSupportActionBar().hide();
 		ButterKnife.inject(this);
 	}
 
