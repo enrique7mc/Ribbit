@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="background_purple">#3F2466</color>
+    <color name="light_gray">#BBBBBB</color>
+    <color name="apptheme_color">#61408c</color>
 </resources>
