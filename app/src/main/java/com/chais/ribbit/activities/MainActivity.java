@@ -14,6 +14,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -45,6 +47,7 @@ public class MainActivity extends ActionBarActivity {
 
 	protected Uri mMediaUri;
 	SectionsPagerAdapter mSectionsPagerAdapter;
+	ActionBar mActionBar;
 
 	ViewPager mViewPager;
 
@@ -60,14 +63,33 @@ public class MainActivity extends ActionBarActivity {
 		} else {
 			Log.i(TAG, currentUser.getUsername());
 		}
+		mActionBar = getSupportActionBar();
+		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		mActionBar.setDisplayShowTitleEnabled(true);
 
-		// Create the adapter that will return a fragment for each of the three
-		// primary sections of the activity.
-		mSectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
-
-		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
+
+		mSectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
 		mViewPager.setAdapter(mSectionsPagerAdapter);
+
+		ViewPager.SimpleOnPageChangeListener pageChangeListener =
+				new ViewPager.SimpleOnPageChangeListener(){
+			@Override
+			public void onPageSelected(int position) {
+				super.onPageSelected(position);
+				mActionBar.setSelectedNavigationItem(position);
+			}
+		};
+
+		mViewPager.setOnPageChangeListener(pageChangeListener);
+
+		ActionBar.TabListener tabListener = new TabListenerImp();
+
+		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++){
+			mActionBar.addTab(mActionBar.newTab()
+					.setText(mSectionsPagerAdapter.getPageTitle(i))
+					.setTabListener(tabListener));
+		}
 	}
 
 	@Override
@@ -253,4 +275,21 @@ public class MainActivity extends ActionBarActivity {
 			return state.equals(Environment.MEDIA_MOUNTED);
 		}
 	};
+
+	private class TabListenerImp implements  ActionBar.TabListener {
+		@Override
+		public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+			mViewPager.setCurrentItem(tab.getPosition());
+		}
+
+		@Override
+		public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+			// not used
+		}
+
+		@Override
+		public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+			// not used
+		}
+	}
 }
