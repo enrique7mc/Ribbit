@@ -199,25 +199,13 @@ public class MainActivity extends ActionBarActivity {
 			switch (which) {
 				case 0:
 					Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-					mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
-					if (mMediaUri == null) {
-						Toast.makeText(MainActivity.this,
-								getString(R.string.error_external_storage),
-								Toast.LENGTH_LONG).show();
-						return;
-					}
+					if (externalStorageError()) { return; }
 					takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
 					startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
 					break;
 				case 1:
 					Intent videoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-					mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
-					if (mMediaUri == null) {
-						Toast.makeText(MainActivity.this,
-								getString(R.string.error_external_storage),
-								Toast.LENGTH_LONG).show();
-						return;
-					}
+					if (externalStorageError()) { return; }
 					videoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
 					videoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);
 					videoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
@@ -238,36 +226,47 @@ public class MainActivity extends ActionBarActivity {
 			}
 		}
 
+		private boolean externalStorageError() {
+			mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+			if (mMediaUri == null) {
+				Toast.makeText(MainActivity.this,
+						getString(R.string.error_external_storage),
+						Toast.LENGTH_LONG).show();
+				return true;
+			}
+			return false;
+		}
+
 		private Uri getOutputMediaFileUri(int mediaType) {
-			if (isExternalStorageAvailable()) {
-				String appName = MainActivity.this.getString(R.string.app_name);
-				File mediaStorageDir = new File(
-						Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-						appName);
-				if (!mediaStorageDir.exists() ) {
-					if (!mediaStorageDir.mkdirs()) {
-						Log.e(TAG, "Failed to create directory");
-						return null;
-					}
-				}
-
-				File mediaFile;
-				Date now = new Date();
-				String timestamp = formatter.format(now);
-				String path = mediaStorageDir.getPath() + File.separator;
-				if (mediaType == MEDIA_TYPE_IMAGE) {
-					mediaFile = new File(path + "IMG_" + timestamp + ".jpg");
-				} else if(mediaType == MEDIA_TYPE_VIDEO) {
-					mediaFile = new File(path + "VID_" + timestamp + ".mp4");
-				} else {
-					return null;
-				}
-
-				Log.d(TAG, "File: " + Uri.fromFile(mediaFile));
-				return Uri.fromFile(mediaFile);
+			if (!isExternalStorageAvailable()) {
+				return null;
 			}
 
-			return null;
+			String appName = MainActivity.this.getString(R.string.app_name);
+			File mediaStorageDir = new File(
+					Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+					appName);
+			if (!mediaStorageDir.exists() ) {
+				if (!mediaStorageDir.mkdirs()) {
+					Log.e(TAG, "Failed to create directory");
+					return null;
+				}
+			}
+
+			File mediaFile;
+			Date now = new Date();
+			String timestamp = formatter.format(now);
+			String path = mediaStorageDir.getPath() + File.separator;
+			if (mediaType == MEDIA_TYPE_IMAGE) {
+				mediaFile = new File(path + "IMG_" + timestamp + ".jpg");
+			} else if(mediaType == MEDIA_TYPE_VIDEO) {
+				mediaFile = new File(path + "VID_" + timestamp + ".mp4");
+			} else {
+				return null;
+			}
+
+			Log.d(TAG, "File: " + Uri.fromFile(mediaFile));
+			return Uri.fromFile(mediaFile);
 		}
 
 		private boolean isExternalStorageAvailable() {
