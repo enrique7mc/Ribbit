@@ -3,7 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:context="com.chais.ribbit.activities.LoginActivity"
-                android:background="@drawable/background_fill">
+                style="@style/AuthBackground">
 
     <ImageView
         android:layout_width="match_parent"
