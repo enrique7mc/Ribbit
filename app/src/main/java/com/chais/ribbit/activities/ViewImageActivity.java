@@ -5,9 +5,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.chais.ribbit.R;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.Timer;
@@ -19,6 +22,7 @@ import butterknife.InjectView;
 
 public class ViewImageActivity extends ActionBarActivity {
 	@InjectView(R.id.imageView) ImageView mImageView;
+	@InjectView(R.id.progressBar) ProgressBar mProgressBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,15 +31,37 @@ public class ViewImageActivity extends ActionBarActivity {
 
 		ButterKnife.inject(this);
 
-		Uri imageUri = getIntent().getData();
-		Picasso.with(this).load(imageUri.toString()).into(mImageView);
+		mProgressBar.setVisibility(View.VISIBLE);
 
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				finish();
+		Uri imageUri = getIntent().getData();
+		Picasso.with(this).load(imageUri.toString())
+						  .into(mImageView, new ImageLoadedCallback(mProgressBar));
+	}
+
+	private class ImageLoadedCallback implements Callback {
+		ProgressBar progressBar;
+
+		public  ImageLoadedCallback(ProgressBar progBar){
+			progressBar = progBar;
+		}
+
+		@Override
+		public void onSuccess() {
+			if (this.progressBar != null) {
+				this.progressBar.setVisibility(View.GONE);
+				Timer timer = new Timer();
+				timer.schedule(new TimerTask() {
+					@Override
+					public void run() {
+						finish();
+					}
+				}, 10_000);
 			}
-		}, 10_000);
+		}
+
+		@Override
+		public void onError() {
+			// not used yet
+		}
 	}
 }

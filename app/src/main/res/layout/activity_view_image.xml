@@ -4,6 +4,18 @@
                 android:layout_height="match_parent"
                 tools:context="com.chais.ribbit.activities.ViewImageActivity">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"/>
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
