@@ -52,6 +52,12 @@ public class InboxFragment extends ListFragment {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
+		if (!Util.isNetworkAvailable(getActivity())) {
+			Util.alertDialogShow(getActivity(), getString(R.string.general_error),
+					getString(R.string.no_network_available_message));
+			return;
+		}
+
 		ParseObject message = mMessages.get(position);
 		String messageType = message.getString(ParseConstants.KEY_FILE_TYPE);
 		ParseFile file = message.getParseFile(ParseConstants.KEY_FILE);
