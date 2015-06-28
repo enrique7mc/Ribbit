@@ -46,8 +46,30 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/buttonDivider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextLayout"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/button_divider"
+        android:contentDescription="@string/content_desc_button_divider"/>
+
     <Button
         android:id="@+id/signupButton"
         style="@style/AuthButton"
-        android:text="@string/signup_button_label"/>
+        android:layout_alignParentLeft="@id/editTextLayout"
+        android:layout_below="@id/editTextLayout"
+        android:layout_toLeftOf="@id/buttonDivider"
+        android:text="@string/signup_button_label"
+        android:layout_marginRight="0dp"/>
+
+    <Button
+        android:id="@+id/cancelButton"
+        style="@style/AuthButton"
+        android:text="@string/cancel_button_label"
+        android:layout_alignParentRight="@id/editTextLayout"
+        android:layout_toRightOf="@id/buttonDivider"
+        android:layout_below="@id/editTextLayout"
+        android:layout_marginLeft="0dp"/>
 </RelativeLayout>

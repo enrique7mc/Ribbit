@@ -27,6 +27,7 @@ public class SignUpActivity extends ActionBarActivity {
 	@InjectView(R.id.passwordField) EditText mPassword;
 	@InjectView(R.id.emailField) EditText mEmail;
 	@InjectView(R.id.signupButton) Button mSignUpButton;
+	@InjectView(R.id.cancelButton) Button mCancelButton;
 	ProgressDialog progress;
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,11 @@ public class SignUpActivity extends ActionBarActivity {
 
 		progress = ProgressDialog.show(this, "Sign up", "Please wait a moment", true);
 		newUser.signUpInBackground(signUpCallback);
+	}
+
+	@OnClick(R.id.cancelButton)
+	public void CancelButtonClick(View view) {
+		finish();
 	}
 
 	private SignUpCallback signUpCallback = new SignUpCallback() {

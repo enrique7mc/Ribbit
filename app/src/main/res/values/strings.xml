@@ -51,4 +51,6 @@
     <string name="no_network_available_message">Seems you are offline</string>
     <string name="content_desc_background">Ribbit Frog Background Image</string>
     <string name="subtitle">An Android Project</string>
+    <string name="cancel_button_label">CANCEL</string>
+    <string name="content_desc_button_divider">Button Divider</string>
 </resources>
