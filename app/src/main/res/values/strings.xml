@@ -12,7 +12,7 @@
     <string name="title_section2">Friends</string>
     <string name="title_activity_signup">SignupActivity</string>
     <string name="email_hint">Email</string>
-    <string name="signup_button_label">Sign Up</string>
+    <string name="signup_button_label">SIGN UP</string>
     <string name="signup_error_message">Please make sure you enter a username, password and email address</string>
     <string name="signup_error_title">Oopss!</string>
     <string name="signup_error_parse">An error occurred during signup</string>
