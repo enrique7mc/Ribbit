@@ -86,7 +86,7 @@ public class MainActivity extends ActionBarActivity {
 
 		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++){
 			mActionBar.addTab(mActionBar.newTab()
-					.setText(mSectionsPagerAdapter.getPageTitle(i))
+					.setIcon(mSectionsPagerAdapter.getIcon(i))
 					.setTabListener(tabListener));
 		}
 	}
