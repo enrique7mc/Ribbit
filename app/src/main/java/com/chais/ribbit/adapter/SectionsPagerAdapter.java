@@ -61,7 +61,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 			case 0:
 				return R.drawable.ic_tab_inbox;
 			case 1:
-				return R.drawable.ic_tab_inbox;
+				return R.drawable.ic_tab_friends;
 
 			default: return 0;
 		}
