@@ -27,14 +27,15 @@ import java.util.List;
 public class EditFriendsActivity extends ActionBarActivity {
 
     public void onCreate(Bundle savedInstanceState) {
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        MyFragment fragment = new MyFragment();
+        EditFriendsFragment fragment = new EditFriendsFragment();
         getSupportFragmentManager().beginTransaction().replace(android.R.id.content, fragment).commit();
     }
 
-    public static class MyFragment extends ListFragment {
+    public static class EditFriendsFragment extends ListFragment {
         private static final String TAG = EditFriendsActivity.class.getSimpleName();
         protected List<ParseUser> mUsers;
         protected ParseRelation<ParseUser> mFriendsRelation;
@@ -42,7 +43,6 @@ public class EditFriendsActivity extends ActionBarActivity {
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
-            getActivity().requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
             super.onCreate(savedInstanceState);
         }
 
