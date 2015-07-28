@@ -1,7 +1,5 @@
 package com.chais.ribbit.activities;
 
-import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBarActivity;
@@ -13,8 +11,8 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.chais.ribbit.util.ParseConstants;
 import com.chais.ribbit.R;
+import com.chais.ribbit.util.ParseConstants;
 import com.chais.ribbit.util.Util;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -44,7 +42,7 @@ public class EditFriendsActivity extends ActionBarActivity {
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
-            // requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+            getActivity().requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
             super.onCreate(savedInstanceState);
         }
 
@@ -85,7 +83,7 @@ public class EditFriendsActivity extends ActionBarActivity {
             mCurrentUser = ParseUser.getCurrentUser();
             mFriendsRelation = mCurrentUser.getRelation(ParseConstants.KEY_FRIENDS_RELATION);
 
-            // setProgressBarIndeterminateVisibility(true);
+            getActivity().setProgressBarIndeterminateVisibility(true);
             ParseQuery<ParseUser> query =
                     ParseUser.getQuery()
                             .whereNotEqualTo(ParseConstants.KEY_OBJECT_ID, mCurrentUser.getObjectId())
@@ -100,7 +98,7 @@ public class EditFriendsActivity extends ActionBarActivity {
         private FindCallback<ParseUser> findCallBack = new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> parseUsers, ParseException e) {
-                // setProgressBarIndeterminateVisibility(false);
+                getActivity().setProgressBarIndeterminateVisibility(false);
                 if (e != null) {
                     Log.e(TAG, e.getMessage());
                     Util.alertDialogShow(getActivity(), getString(R.string.error_title),
