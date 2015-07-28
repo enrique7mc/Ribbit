@@ -1,6 +1,5 @@
 package com.chais.ribbit.activities;
 
-import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -158,7 +157,8 @@ public class RecipientsActivity extends ActionBarActivity {
 					Util.alertDialogShow(getActivity(), getString(R.string.error_title),
 							getString(R.string.error_selecting_file));
 				} else {
-					mProgressDialog = ProgressDialog.show(getActivity(), "", "Please wait...");
+					mProgressDialog = ProgressDialog.show(getActivity(),
+							getString(R.string.sending_message), getString(R.string.please_wait));
 					send(message);
 				}
 				return true;
