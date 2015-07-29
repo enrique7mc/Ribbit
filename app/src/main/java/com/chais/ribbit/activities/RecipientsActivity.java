@@ -79,7 +79,7 @@ public class RecipientsActivity extends ActionBarActivity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			setHasOptionsMenu(true);
-			return inflater.inflate(R.layout.activity_recipients, container, false);
+			return inflater.inflate(R.layout.fragment_recipients, container, false);
 		}
 
 		@Override
