@@ -1,6 +1,7 @@
 package com.chais.ribbit.adapter;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.chais.ribbit.util.ParseConstants;
 import com.chais.ribbit.R;
 import com.parse.ParseObject;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -43,11 +45,18 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 
 		ParseObject message = mMessages.get(position);
 
+		Date createdAt = message.getCreatedAt();
+		long now = new Date().getTime();
+
+		String convertedDate = DateUtils.getRelativeTimeSpanString(
+				createdAt.getTime(), now, DateUtils.SECOND_IN_MILLIS).toString();
+		holder.timeLabel.setText(convertedDate);
+
 		String fileType = message.getString(ParseConstants.KEY_FILE_TYPE);
 		if (fileType.equals(ParseConstants.TYPE_IMAGE)) {
-			holder.iconImageView.setImageResource(R.drawable.ic_action_picture);
+			holder.iconImageView.setImageResource(R.drawable.ic_picture);
 		} else if(fileType.equals(ParseConstants.TYPE_VIDEO)) {
-			holder.iconImageView.setImageResource(R.drawable.ic_action_play_over_video);
+			holder.iconImageView.setImageResource(R.drawable.ic_video);
 		}
 
 		holder.nameLabel.setText(message.getString(ParseConstants.KEY_SENDER_NAME));
@@ -64,6 +73,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 	static class ViewHolder {
 		@InjectView(R.id.messageIcon) ImageView iconImageView;
 		@InjectView(R.id.senderLabel) TextView nameLabel;
+		@InjectView(R.id.timeLabel) TextView timeLabel;
 
 		public ViewHolder(View view) {
 			ButterKnife.inject(this, view);

@@ -53,4 +53,8 @@
     <string name="subtitle">An Android Project</string>
     <string name="cancel_button_label">CANCEL</string>
     <string name="content_desc_button_divider">Button Divider</string>
+    <string name="sending_message">Sendig message</string>
+    <string name="please_wait">Please wait...</string>
+    <string name="content_desc_message_item">Message icon</string>
+    <string name="test_name">Test Name</string>
 </resources>

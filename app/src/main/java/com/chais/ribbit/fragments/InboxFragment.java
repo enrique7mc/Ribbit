@@ -1,20 +1,20 @@
 package com.chais.ribbit.fragments;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.chais.ribbit.adapter.MessageAdapter;
-import com.chais.ribbit.util.ParseConstants;
 import com.chais.ribbit.R;
 import com.chais.ribbit.activities.ViewImageActivity;
+import com.chais.ribbit.adapter.MessageAdapter;
+import com.chais.ribbit.util.ParseConstants;
 import com.chais.ribbit.util.Util;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -26,17 +26,25 @@ import com.parse.ParseUser;
 import java.util.Arrays;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 /**
  * Created by Enrique on 05/05/2015.
  */
 public class InboxFragment extends ListFragment {
 	protected List<ParseObject> mMessages;
+	protected @InjectView(R.id.swipeRefreshLayout) SwipeRefreshLayout mSwipeRefreshLayout;
 	private static final String TAG = InboxFragment.class.getSimpleName();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_inbox, container, false);
+		ButterKnife.inject(this, rootView);
+		mSwipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
+		mSwipeRefreshLayout.setColorSchemeColors(R.color.swipeRefresh1, R.color.swipeRefresh2,
+				R.color.swipeRefresh3, R.color.swipeRefresh4);
 		return rootView;
 	}
 
@@ -94,6 +102,11 @@ public class InboxFragment extends ListFragment {
 			@Override
 			public void done(List<ParseObject> messagesList, ParseException e) {
 				getActivity().setProgressBarIndeterminateVisibility(false);
+
+				if (mSwipeRefreshLayout.isRefreshing()) {
+					mSwipeRefreshLayout.setRefreshing(false);
+				}
+
 				if (e != null) {
 					Log.e(TAG, e.getMessage());
 					Util.alertDialogShow(getActivity(), getString(R.string.error_title),
@@ -112,4 +125,12 @@ public class InboxFragment extends ListFragment {
 			}
 		});
 	}
+
+	protected SwipeRefreshLayout.OnRefreshListener mOnRefreshListener =
+			new SwipeRefreshLayout.OnRefreshListener() {
+		@Override
+		public void onRefresh() {
+			getUserMessages();
+		}
+	};
 }

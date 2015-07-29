@@ -45,7 +45,7 @@
             android:label="@string/title_activity_edit_friends"
             android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBarTheme" >
+            android:theme="@style/Theme.Ribbit" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
@@ -55,7 +55,7 @@
             android:label="@string/title_activity_recipients"
             android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBarTheme" >
+            android:theme="@style/Theme.Ribbit" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />

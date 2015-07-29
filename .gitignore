@@ -20,3 +20,4 @@ app/app.iml
 .idea/gradle.xml
 .idea/*.xml
 app/app.iml
+.idea/scopes/scope_settings.xml
