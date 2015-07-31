@@ -4,14 +4,19 @@
                 android:layout_height="match_parent"
                 tools:context="com.chais.ribbit.activities.MainActivity$PlaceholderFragment">
 
-    <ListView
+    <GridView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@android:id/list"
+        android:id="@+id/friendsGrid"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:numColumns="3"
+        android:horizontalSpacing="@dimen/user_grid_spacing"
+        android:verticalSpacing="@dimen/user_grid_spacing"
+        android:clipToPadding="false"
         />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
