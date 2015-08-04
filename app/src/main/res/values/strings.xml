@@ -57,4 +57,5 @@
     <string name="please_wait">Please wait...</string>
     <string name="content_desc_message_item">Message icon</string>
     <string name="test_name">Test Name</string>
+    <string name="content_description_user_avatar">User avatar</string>
 </resources>

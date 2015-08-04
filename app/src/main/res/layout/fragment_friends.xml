@@ -11,10 +11,14 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:numColumns="3"
+        android:numColumns="auto_fit"
+        android:columnWidth="90dp"
+        android:stretchMode="columnWidth"
         android:horizontalSpacing="@dimen/user_grid_spacing"
         android:verticalSpacing="@dimen/user_grid_spacing"
         android:clipToPadding="false"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
         />
 
     <TextView

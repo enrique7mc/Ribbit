@@ -10,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chais.ribbit.R;
+import com.chais.ribbit.util.MD5Util;
 import com.chais.ribbit.util.ParseConstants;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 import java.util.List;
@@ -45,6 +47,18 @@ public class UserAdapter extends ArrayAdapter<ParseUser> {
 		}
 
 		ParseUser user = mUsers.get(position);
+		String email = user.getEmail().toLowerCase();
+
+		if (email.equals("")) {
+			holder.userImageView.setImageResource(R.drawable.avatar_empty);
+		} else {
+			String hash = MD5Util.md5Hex(email);
+			String gravatarUrl = "http://www.gravatar.com/avatar/"
+					+ hash + "?s=204&d=404";
+			Picasso.with(mContext).load(gravatarUrl)
+					.placeholder(R.drawable.avatar_empty)
+					.into(holder.userImageView);
+		}
 
 		/*String fileType = message.getString(ParseConstants.KEY_FILE_TYPE);
 		if (fileType.equals(ParseConstants.TYPE_IMAGE)) {
@@ -65,8 +79,8 @@ public class UserAdapter extends ArrayAdapter<ParseUser> {
 	}
 
 	static class ViewHolder {
-		//@InjectView(R.id.messageIcon) ImageView iconImageView;
-		@InjectView(R.id.senderLabel) TextView nameLabel;
+		@InjectView(R.id.userImageView) ImageView userImageView;
+		@InjectView(R.id.nameLabel) TextView nameLabel;
 
 		public ViewHolder(View view) {
 			ButterKnife.inject(this, view);
