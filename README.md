@@ -7,7 +7,7 @@ Features:
 2. Back end storage with Parse  
 3. Custom adapters and ViewHolder pattern  
 4. Load of images with Picasso  
-5. Custom styles and GridLayout
+5. Custom styles and GridLayout  
 6. Field and method binding for Android views with Butter Knife  
 
 **Login and Signup screens, the user data is stored in Parse**
